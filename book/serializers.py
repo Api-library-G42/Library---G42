@@ -5,7 +5,8 @@ from copies.serializers import CopySerializer
 
 
 class BookSerializer(serializers.ModelSerializer):
-    copies = CopySerializer(many=True, read_only=True)
+    copies = serializers.SerializerMethodField()
+    available = serializers.SerializerMethodField()
     copies_qts = serializers.IntegerField(write_only=True)
 
     class Meta:
@@ -20,6 +21,15 @@ class BookSerializer(serializers.ModelSerializer):
             "copies_qts",
             "copies",
         ]
+
+    def get_copies(self, obj):
+        return len(obj.copies.values())
+
+    def get_available(self, obj):
+        if len(obj.copies.filter(is_available=True)) > 0:
+            return True
+        else:
+            return False
 
     def create(self, validated_data):
         copies_qts_loop = validated_data.pop("copies_qts")
