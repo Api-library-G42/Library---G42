@@ -4,7 +4,9 @@ import uuid
 
 class User(AbstractUser):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    name = models.CharField(max_length=60)
-    age = models.IntegerField()
+    email = models.EmailField(max_length=127, unique=True)
     password = models.CharField(max_length=60)
+    username = models.CharField(max_length=60, unique=True)
+    age = models.IntegerField()
     blocked = models.BooleanField(default=False)
+    is_colaborator = models.BooleanField(default=False)
