@@ -6,4 +6,4 @@ class CopySerializer(serializers.ModelSerializer):
     class Meta:
         model = Copies
         fields = ["id", "is_available", "book"]
-        depth = 2
+        depth = 1

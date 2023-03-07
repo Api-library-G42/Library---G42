@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from .models import Copies
+from rest_framework import generics
+from .serializers import CopySerializer
 
-# Create your views here.
+
+class CopyView(generics.ListAPIView):
+    queryset = Copies.objects.all()
+    serializer_class = CopySerializer
