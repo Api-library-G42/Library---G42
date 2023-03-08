@@ -10,4 +10,4 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    favorites = models.ManyToManyField("user.User", related_name="favorites")
+    favorites = models.ManyToManyField("user.User", related_name="books")

@@ -1,10 +1,15 @@
 from django.shortcuts import render
+
+from book.serializers import FavoritesBookSerializer
 from .models import User
 from .serializers import UserSerializer, CustomJWTSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import IsUserOwner
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import (
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView
+)
 
 
 class UserView(ListCreateAPIView):
@@ -22,3 +27,4 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
 
 class LoginJWTView(TokenObtainPairView):
     serializer_class = CustomJWTSerializer
+

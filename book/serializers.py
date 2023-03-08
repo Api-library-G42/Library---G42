@@ -1,7 +1,9 @@
+from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .models import Book
 from copies.models import Copies
 from copies.serializers import CopySerializer
+from user.serializers import UserSerializer
 
 
 class BookSerializer(serializers.ModelSerializer):
@@ -40,3 +42,20 @@ class BookSerializer(serializers.ModelSerializer):
         Copies.objects.bulk_create(copies_instances)
 
         return book
+
+
+class FavoritesBookSerializer(serializers.ModelSerializer):
+    # id = serializers.IntegerField(read_only=True)
+    # book_id = BookSerializer(read_only=True)
+    # user_id = UserSerializer(read_only=True, many=True)
+    class Meta:
+        model = Book
+        fields = ["id", "favorites"]
+        read_only_fields = ["id", "favorites"]
+
+    def update(self, instance, validated_data):
+        instance.favorites.add(validated_data.get("favorites"))
+        instance.save()
+        
+        return instance
+        
