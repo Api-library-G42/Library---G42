@@ -39,7 +39,7 @@ class RentedSerializer(serializers.ModelSerializer):
         tz = pytz.timezone("America/Sao_Paulo")
         instance.devolution_at = datetime.now(tz)
 
-        if instance.devolution_at < instance.book_time:
+        if instance.devolution_at > instance.book_time:
             user = get_object_or_404(User, id=instance.user.id)
 
             user_updated = UserSerializer(user, data={"blocked": True, "blocked_at": data_futura}, partial=True)
