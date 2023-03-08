@@ -33,14 +33,16 @@ class RentedSerializer(serializers.ModelSerializer):
         return Rented.objects.create(**validated_data)
 
     def update(self, instance: Rented, validated_data: dict) -> Rented:
+        data_atual = datetime.now()
+        data_futura = data_atual + timedelta(days=7)
 
         tz = pytz.timezone("America/Sao_Paulo")
         instance.devolution_at = datetime.now(tz)
 
-        if instance.devolution_at > instance.book_time:
+        if instance.devolution_at < instance.book_time:
             user = get_object_or_404(User, id=instance.user.id)
 
-            user_updated = UserSerializer(user, data={"blocked": True}, partial=True)
+            user_updated = UserSerializer(user, data={"blocked": True, "blocked_at": data_futura}, partial=True)
             user_updated.is_valid()
 
             user_updated.save()
