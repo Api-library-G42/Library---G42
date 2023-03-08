@@ -11,9 +11,6 @@ from user.serializers import UserSerializer
 from copies.models import Copies
 from copies.serializers import CopySerializer
 
-from book.models import Book
-from book.serializers import BookSerializer
-
 
 class RentedSerializer(serializers.ModelSerializer):
     class Meta:
