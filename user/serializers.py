@@ -59,7 +59,7 @@ class CustomJWTSerializer(TokenObtainPairSerializer):
         tz = pytz.timezone("America/Sao_Paulo")
         current_date = datetime.now(tz)
         if user.blocked:
-            if user.blocked_at < current_date:
+            if user.blocked_at > current_date:
                 user_updated = UserSerializer(user, data={"blocked": False, "blocked_at": None}, partial=True)
                 user_updated.is_valid()
 
