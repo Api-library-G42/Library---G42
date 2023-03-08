@@ -48,14 +48,24 @@ class FavoritesBookSerializer(serializers.ModelSerializer):
     # id = serializers.IntegerField(read_only=True)
     # book_id = BookSerializer(read_only=True)
     # user_id = UserSerializer(read_only=True, many=True)
+
+    favorites = serializers.SerializerMethodField()
+
     class Meta:
         model = Book
         fields = ["id", "favorites"]
         read_only_fields = ["id", "favorites"]
+        depth = 1
+
+    def get_favorites(self, instance):
+        list = []
+        for users in instance.favorites.all():           
+            list.append(users.email)
+
+        return list
 
     def update(self, instance, validated_data):
         instance.favorites.add(validated_data.get("favorites"))
         instance.save()
-        
+
         return instance
-        
