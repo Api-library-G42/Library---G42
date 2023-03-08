@@ -7,3 +7,8 @@ class RentedView(generics.ListCreateAPIView):
 
     queryset = Rented.objects.all()
     serializer_class = RentedSerializer
+
+
+class RentedDetailView(generics.RetrieveUpdateAPIView):
+    queryset = Rented.objects.all()
+    serializer_class = RentedSerializer
