@@ -32,7 +32,7 @@ SECRET_KEY = str(os.getenv("SECRET_KEY"), get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", False)
 
-ALLOWED_HOSTS = ["https://sprint-5-tests-production.up.railway.app/", "0.0.0.0"]
+ALLOWED_HOSTS = ["library-g42-production.up.railway.app", "0.0.0.0"]
 
 
 # Application definition
