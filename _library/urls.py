@@ -21,4 +21,5 @@ urlpatterns = [
     path("api/", include("user.urls")),
     path("api/", include("book.urls")),
     path("api/", include("copies.urls")),
+    path("api/", include("rented.urls")),
 ]
