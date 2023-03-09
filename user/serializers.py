@@ -56,18 +56,6 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomJWTSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-<<<<<<< HEAD
-=======
-        tz = pytz.timezone("America/Sao_Paulo")
-        current_date = datetime.now(tz)
-        if user.blocked:
-            if user.blocked_at > current_date:
-                user_updated = UserSerializer(user, data={"blocked": False, "blocked_at": None}, partial=True)
-                user_updated.is_valid()
-
-                user_updated.save()
-
->>>>>>> 7a49848be53c3a9fbec5a120e02c7a34f4fe13d8
         token = super().get_token(user)
         token["blocked"] = user.blocked
 

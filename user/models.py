@@ -10,5 +10,5 @@ class User(AbstractUser):
     username = models.CharField(max_length=127, unique=True)
     age = models.IntegerField()
     blocked = models.BooleanField(default=False)
-    is_colaborator = models.BooleanField(default=False)
     blocked_at = models.DateTimeField(null=True)
+    is_colaborator = models.BooleanField(default=False)

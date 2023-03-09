@@ -11,6 +11,8 @@ from user.serializers import UserSerializer
 from copies.models import Copies
 from copies.serializers import CopySerializer
 
+from .exceptions import BlockedException, DisponibleException
+
 
 class RentedSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,10 +23,14 @@ class RentedSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tz = pytz.timezone("America/Sao_Paulo")
         current_date = datetime.now(tz)
-        user = get_object_or_404(User, id=validated_data["user"])
+        user = get_object_or_404(User, id=validated_data["user"].id)
+        copy = get_object_or_404(Copies, id=validated_data["copy"].id)
+
+        if copy.is_available == False:
+            raise DisponibleException("Está copia não esta disponivel")
 
         if user.blocked:
-            if user.blocked_at > current_date:
+            if user.blocked_at < current_date:
                 user_updated = UserSerializer(
                     user, data={"blocked": False, "blocked_at": None}, partial=True
                 )
@@ -32,14 +38,12 @@ class RentedSerializer(serializers.ModelSerializer):
 
                 user_updated.save()
             else:
-                raise ValueError("Usuario bloqueado")
+                raise BlockedException("Usuario bloqueado")
 
         data_atual = datetime.now()
         data_futura = data_atual + timedelta(days=14)
 
         validated_data["book_time"] = data_futura
-
-        copy = get_object_or_404(Copies, id=validated_data["copy"].id)
 
         copy_updated = CopySerializer(copy, data={"is_available": False}, partial=True)
         copy_updated.is_valid()
@@ -52,6 +56,12 @@ class RentedSerializer(serializers.ModelSerializer):
         data_futura = data_atual + timedelta(days=7)
 
         tz = pytz.timezone("America/Sao_Paulo")
+
+        rented = get_object_or_404(Rented, id=instance.id)
+
+        if rented.devolution_at is not None:
+            raise BlockedException("Este livro já foi entregue")
+
         instance.devolution_at = datetime.now(tz)
 
         if instance.devolution_at > instance.book_time:
