@@ -39,7 +39,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     historic_copies_rented = serializers.SerializerMethodField()
 
-    def get_historic_copies_rented(self, obj):
+    def get_historic_copies_rented(self, obj) -> list:
         user_id = str(obj.id)
         historic_books = Rented.objects.filter(user_id=user_id)
 
