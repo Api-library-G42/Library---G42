@@ -27,7 +27,9 @@ class RentedSerializer(serializers.ModelSerializer):
         copy = get_object_or_404(Copies, id=validated_data["copy"].id)
 
         if copy.is_available == False:
-            raise DisponibleException("Está copia não esta disponivel")
+            raise serializers.ValidationError(
+                detail={"error": "Está copia não esta disponivel"}, code=404
+            )
 
         if user.blocked:
             if user.blocked_at < current_date:
@@ -38,7 +40,9 @@ class RentedSerializer(serializers.ModelSerializer):
 
                 user_updated.save()
             else:
-                raise BlockedException("Usuario bloqueado")
+                raise serializers.ValidationError(
+                    detail={"error": "Usuario bloqueado"}, code=404
+                )
 
         data_atual = datetime.now()
         data_futura = data_atual + timedelta(days=14)
@@ -60,7 +64,9 @@ class RentedSerializer(serializers.ModelSerializer):
         rented = get_object_or_404(Rented, id=instance.id)
 
         if rented.devolution_at is not None:
-            raise BlockedException("Este livro já foi entregue")
+            raise serializers.ValidationError(
+                detail={"error": "Este livro já foi entregue"}, code=404
+            )
 
         instance.devolution_at = datetime.now(tz)
 
