@@ -2,6 +2,7 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
+from rented.models import Rented
 from datetime import datetime
 import pytz
 
@@ -19,8 +20,9 @@ class UserSerializer(serializers.ModelSerializer):
             "blocked",
             "is_colaborator",
             "blocked_at",
+            "historic_copies_rented"
         ]
-        read_only_fields = ["is_superuser"]
+        read_only_fields = ["is_superuser", "historic_books"]
         extra_kwargs = {"password": {"write_only": True}}
 
     username = serializers.CharField(
@@ -34,6 +36,18 @@ class UserSerializer(serializers.ModelSerializer):
     email = serializers.EmailField(
         validators=[UniqueValidator(queryset=User.objects.all())],
     )
+
+    historic_copies_rented = serializers.SerializerMethodField()
+
+    def get_historic_copies_rented(self, obj):
+        user_id = str(obj.id)
+        historic_books = Rented.objects.filter(user_id=user_id)
+
+        list = []
+        for books in historic_books.all():
+            list.append(books.copy_id)
+
+        return list
 
     def create(self, validated_data):
         if validated_data["is_colaborator"]:
