@@ -19,6 +19,21 @@ class RentedSerializer(serializers.ModelSerializer):
         read_only_fields = ["rented_at", "devolution_at", "book_time"]
 
     def create(self, validated_data):
+        tz = pytz.timezone("America/Sao_Paulo")
+        current_date = datetime.now(tz)
+        user = get_object_or_404(User, id=validated_data["user"])
+
+        if user.blocked:
+            if user.blocked_at > current_date:
+                user_updated = UserSerializer(
+                    user, data={"blocked": False, "blocked_at": None}, partial=True
+                )
+                user_updated.is_valid()
+
+                user_updated.save()
+            else:
+                raise ValueError("Usuario bloqueado")
+
         data_atual = datetime.now()
         data_futura = data_atual + timedelta(days=14)
 
@@ -33,6 +48,8 @@ class RentedSerializer(serializers.ModelSerializer):
         return Rented.objects.create(**validated_data)
 
     def update(self, instance: Rented, validated_data: dict) -> Rented:
+        data_atual = datetime.now()
+        data_futura = data_atual + timedelta(days=7)
 
         tz = pytz.timezone("America/Sao_Paulo")
         instance.devolution_at = datetime.now(tz)
@@ -40,7 +57,9 @@ class RentedSerializer(serializers.ModelSerializer):
         if instance.devolution_at > instance.book_time:
             user = get_object_or_404(User, id=instance.user.id)
 
-            user_updated = UserSerializer(user, data={"blocked": True}, partial=True)
+            user_updated = UserSerializer(
+                user, data={"blocked": True, "blocked_at": data_futura}, partial=True
+            )
             user_updated.is_valid()
 
             user_updated.save()

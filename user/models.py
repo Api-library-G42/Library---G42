@@ -11,3 +11,4 @@ class User(AbstractUser):
     age = models.IntegerField()
     blocked = models.BooleanField(default=False)
     is_colaborator = models.BooleanField(default=False)
+    blocked_at = models.DateTimeField(null=True)

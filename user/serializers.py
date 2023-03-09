@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
+from datetime import datetime
+import pytz
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -16,6 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             "age",
             "blocked",
             "is_colaborator",
+            "blocked_at",
         ]
         read_only_fields = ["is_superuser"]
         extra_kwargs = {"password": {"write_only": True}}
