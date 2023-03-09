@@ -32,7 +32,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", True)
 
-ALLOWED_HOSTS = ["library-g42-production.up.railway.app", "0.0.0.0"]
+ALLOWED_HOSTS = ["library-g42-production.up.railway.app", "127.0.0.1"]
 
 
 # Application definition
