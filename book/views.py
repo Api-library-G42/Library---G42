@@ -1,3 +1,4 @@
+from book.permissions import IsColaboratorOrReadOnly
 from .models import Book
 from rest_framework import generics
 from .models import Book
@@ -8,6 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class BookView(generics.ListCreateAPIView):
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsColaboratorOrReadOnly]
+
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 

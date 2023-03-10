@@ -96,7 +96,7 @@ REST_FRAMEWORK = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "Projeto LibraryKA",
     "DESCRIPTION": "T13-M5-G42",
-    "VERSION": "0.0.1"
+    "VERSION": "0.0.1",
 }
 
 DATABASES = {
@@ -170,7 +170,7 @@ AUTH_USER_MODEL = "user.User"
 # Credencias para enviar a notificação no email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_PORT="587"
-EMAIL_HOST_USER="bibliotekagroup42@gmail.com"
-EMAIL_HOST_PASSWORD="qykedsthozudxyah"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = "bibliotekagroup42@gmail.com"
+EMAIL_HOST_PASSWORD = "qykedsthozudxyah"
