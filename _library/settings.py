@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import dj_database_url
-from datetime import timedelta
 from pathlib import Path
 import dotenv
 import os
@@ -32,7 +31,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", get_random_secret_key())
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", False)
 
-ALLOWED_HOSTS = ["library-g42-production.up.railway.app", "127.0.0.1"]
+ALLOWED_HOSTS = ["library-g42-production.up.railway.app", "0.0.0.0"]
 
 
 # Application definition
@@ -168,9 +167,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "user.User"
 
+# Credencias para enviar a notificação no email
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
-EMAIL_HOST = os.getenv("EMAIL_HOST")
-EMAIL_PORT = os.getenv("EMAIL_PORT")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT="587"
+EMAIL_HOST_USER="bibliotekagroup42@gmail.com"
+EMAIL_HOST_PASSWORD="qykedsthozudxyah"

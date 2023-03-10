@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-from book.serializers import FavoritesBookSerializer
 from .models import User
 from .serializers import UserSerializer, CustomJWTSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView

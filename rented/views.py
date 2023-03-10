@@ -1,9 +1,8 @@
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from .serializers import RentedSerializer
+from .permissions import AuthPermissions
 from rest_framework import generics
 from .models import Rented
-from .serializers import RentedSerializer
-
-from .permissions import EnsureExistPermissions, AuthPermissions
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 class RentedView(generics.ListCreateAPIView):

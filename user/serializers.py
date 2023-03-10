@@ -3,8 +3,6 @@ from rest_framework.validators import UniqueValidator
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 from rented.models import Rented
-from datetime import datetime
-import pytz
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
             "blocked",
             "is_colaborator",
             "blocked_at",
-            "historic_copies_rented"
+            "historic_copies_rented",
         ]
         read_only_fields = ["is_superuser", "historic_books"]
         extra_kwargs = {"password": {"write_only": True}}
