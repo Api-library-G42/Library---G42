@@ -1,9 +1,6 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers
 from .models import Book
 from copies.models import Copies
-from copies.serializers import CopySerializer
-from user.serializers import UserSerializer
 from django.core.mail import send_mail
 from django.conf import settings
 
@@ -30,11 +27,9 @@ class BookSerializer(serializers.ModelSerializer):
         return len(obj.copies.values())
 
     def get_available(self, obj):
-        import ipdb
-
-        ipdb.set_trace()
         if len(obj.copies.filter(is_available=True)) > 0:
             list = []
+
             for users in obj.favorites.all():
                 list.append(users.email)
             send_mail(
@@ -60,10 +55,6 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class FavoritesBookSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField(read_only=True)
-    # book_id = BookSerializer(read_only=True)
-    # user_id = UserSerializer(read_only=True, many=True)
-
     favorites = serializers.SerializerMethodField()
 
     class Meta:

@@ -1,17 +1,12 @@
 from rest_framework import serializers
 from django.shortcuts import get_object_or_404
 from datetime import datetime, timedelta
-import pytz
-
 from .models import Rented
-
 from user.models import User
 from user.serializers import UserSerializer
-
 from copies.models import Copies
 from copies.serializers import CopySerializer
-
-from .exceptions import BlockedException, DisponibleException
+import pytz
 
 
 class RentedSerializer(serializers.ModelSerializer):
