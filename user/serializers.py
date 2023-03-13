@@ -5,6 +5,31 @@ from .models import User
 from rented.models import Rented
 
 
+class RequestUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "email",
+            "is_superuser",
+            "password",
+            "username",
+            "age",
+            "blocked",
+            "is_colaborator",
+            "blocked_at",
+            "historic_copies_rented",
+        ]
+        read_only_fields = [
+            "is_superuser",
+            "historic_books",
+            "blocked",
+            "blocked_at",
+            "historic_copies_rented",
+        ]
+        extra_kwargs = {"password": {"write_only": True}}
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
