@@ -1,5 +1,5 @@
 from .models import User
-from .serializers import RequestUserSerializer, UserSerializer, CustomJWTSerializer
+from .serializers import  UserSerializer, CustomJWTSerializer, loginResponseSerializer, RequestUserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import IsColaboratorHasPermission, IsUserOwner
@@ -28,7 +28,7 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
 
 
 class LoginJWTView(TokenObtainPairView):
-    @extend_schema(response={"token": str})
+    @extend_schema(responses={200: loginResponseSerializer})
     def post(self, request, *args, **kwargs):
         return super().post(request, *args, **kwargs)
 
