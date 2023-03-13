@@ -5,13 +5,6 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from .permissions import IsColaboratorHasPermission, IsUserOwner
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from drf_spectacular.utils import extend_schema
-from . import views
-
-
-class UserLogin(views.LoginJWTView):
-    @extend_schema(response={"token": str})
-    def post(self, request, *args, **kwargs):
-        return super().post(request, *args, **kwargs)
 
 
 class UserView(ListCreateAPIView):
@@ -35,4 +28,8 @@ class UserDetailView(RetrieveUpdateDestroyAPIView):
 
 
 class LoginJWTView(TokenObtainPairView):
+    @extend_schema(response={"token": str})
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
     serializer_class = CustomJWTSerializer
