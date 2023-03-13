@@ -4,6 +4,12 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 from rented.models import Rented
 
+class loginResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["token"]
+
+
 
 class RequestUserSerializer(serializers.ModelSerializer):
     class Meta:
